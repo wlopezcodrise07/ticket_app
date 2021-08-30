@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import * as Font from 'expo-font'
 import {
   StyleSheet,
   Picker,
@@ -7,6 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import ItemPicker from '../Items/ItemPicker';
 const AddTicket = ({
   handleChangeEmail,
   handleAddTicket,
@@ -22,6 +24,17 @@ const AddTicket = ({
   eventsFiltered
 
 }) => {
+
+  useEffect(() => {
+    loadFonts();
+})
+
+const loadFonts = async () => {
+ await Font.loadAsync({
+  'roboto-light':require('../assets/roboto/Roboto-BoldCondensed.ttf')
+})
+}
+
   return (
     <React.Fragment>
       
@@ -34,6 +47,7 @@ const AddTicket = ({
         </Text>          
         <TextInput
           placeholder="Ingresar Correo"
+          editable = {false}
           style={styles.input}
           onChangeText={handleChangeEmail}
           value={inputTextEmail}
@@ -48,15 +62,11 @@ const AddTicket = ({
         <Text style={styles.titleText}>
           Elige Categoria
         </Text>  
-        <Picker
+        <ItemPicker
+            data={Categories}
             selectedValue={selectedCategory}
-            style={styles.picker}
-            onValueChange={(itemValue, itemIndex) => handleChangeCategories(itemValue)}
-        >
-            {Categories?.map((category) => (
-            <Picker.Item label={category.name} value={category.id} />
-            ))}
-        </Picker>
+            ValueChange={handleChangeCategories}
+        />
       </View>
       
       <Text>
@@ -67,15 +77,11 @@ const AddTicket = ({
           <Text style={styles.titleText}>
             Elige Evento
           </Text>  
-          <Picker
-              selectedValue={selectedEvent}
-              style={styles.picker}
-              onValueChange={(itemValue, itemIndex) => handleChangeEvent(itemValue)}
-          >
-            {eventsFiltered?.map((event) => (
-            <Picker.Item label={event.name} value={event.id} />
-            ))}
-        </Picker>
+        <ItemPicker
+            data={eventsFiltered}
+            selectedValue={selectedEvent}
+            ValueChange={handleChangeEvent}
+        />
       </View>
         <Text>
         {"\n"}
@@ -120,6 +126,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 1,
     width: 200,
+    textAlign: 'center'
   },
   picker: {
     height: 50, 
@@ -134,7 +141,8 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     fontWeight: "bold",
-    color : '#0A1F49'
+    color : '#0A1F49',
+    fontFamily:'roboto-light'
   }
 });
 

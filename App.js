@@ -1,99 +1,56 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
+
+import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
   View,
 } from 'react-native';
-import Modal from './components/Modal';
-import Ticket from './components/Ticket';
-import AddTicket from './components/AddTicket';
-import Events from './Data/Events'
-import Categories from './Data/Categories'
+import ScreenRegister from './Screens/ScreenRegister';
+import ScreenLogin from './Screens/ScreenLogin';
+import usuarios from './Data/Usuarios';
 export default function App() {
-  const [inputTextEmail, setInputTextEmail] = useState('');
-  const [inputTextQuantity, setInputTextQuantity] = useState(0); 
-  const [eventsFiltered, setEventsFiltered] = useState(Events.filter(p => p.category == 1))
-  const [selectedCategory, setSelectedCategory] = useState(1);
-  const [selectedEvent, setSelectedEvent] = useState(1);
-  const [inputError, setInputError] = useState('');
-  const [TicketList, setTicketList] = useState([]);
-  const [ticketSelected, setTicketSelected] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
-  const handleChangeEmail = (text) => {
-    setInputTextEmail(text);
-    setInputError('');
-  };
 
-  const handleAddTicket = () => {
-    setInputError('');
-    if(inputTextEmail==''){
-    setInputError('Ingrese un correo valido');
-    return
-    }
-    if(inputTextQuantity==0 || inputTextQuantity==''){
-    setInputError('Ingrese una cantidad mayor a 0');
-    return
-    }
-    const data = {
-        "id": Math.random().toString(),
-        "email": inputTextEmail,
-        "event": selectedEvent,
-        "quantity": inputTextQuantity,
-    }
-    setTicketList([...TicketList,data]);
+const [usuarioIngreso, setUsuarioIngreso] = useState('');
+const [claveIngreso, setClaveIngreso] = useState('');
+const [acceso,setAcceso] = useState(false)
+const [msgError,setMsgError] = useState('')
+const [datosUsuario,setDatosUsuario] = useState([])
+console.log(acceso)
+const handleChangeUsuario = (text) => {
+  setUsuarioIngreso(text)
+}
+const handleChangeClave = (text) => {
+  setClaveIngreso(text)
+}
+const handlePressAcceso = () => {
+  setMsgError('')
+  const usuarioSession = usuarios.filter(usuario => usuario.password ==claveIngreso && usuario.email==usuarioIngreso)
+  console.log(usuarioSession)
+  if (usuarioSession.length > 0){
+    setAcceso(!acceso);
+    setDatosUsuario(usuarioSession)
+    setMsgError('')
+  }else{
+    setMsgError('Ingrese datos válidos')
   }
-  const handleChangeCategories = (value) => {
-    setSelectedCategory(value)
-    const arrayEvent = Events.filter(p => p.category == value)
-    setEventsFiltered(arrayEvent)
-    const arrayEventid = arrayEvent.find(element=>element.id>0)
-    setSelectedEvent(arrayEventid.id)
-
-  }
-  const handleChangeEvent = (value) => {
-    setSelectedEvent(value)
-  }
-  const handleChangeQuantity = (value) => {
-    setInputTextQuantity(value)
-  }
-  const handleConfirmDelete = () => {
-    const id = ticketSelected.id;
-    setTicketList(TicketList.filter(item => item.id !== id));
-    setModalVisible(false);
-    setTicketSelected({});
-  }
-
-  const handleModal = id => {
-    setTicketSelected(TicketList.find(item => item.id === id));
-    setModalVisible(true);
-  }
-
+}
   return (
     <View style={styles.screen}>
-      <AddTicket
-        handleChangeEmail={handleChangeEmail}
-        handleAddTicket={handleAddTicket}
-        handleChangeCategories={handleChangeCategories}
-        handleChangeEvent={handleChangeEvent}
-        handleChangeQuantity={handleChangeQuantity}
-        selectedCategory={selectedCategory}
-        selectedEvent={selectedEvent}
-        inputError={inputError}
-        inputTextEmail={inputTextEmail}
-        inputTextQuantity={inputTextQuantity}
-        Categories={Categories}
-        eventsFiltered={eventsFiltered}
-      />
-      <Ticket
-        TicketList={TicketList}
-        Events={Events}
-        handleModal={handleModal}
-      />
-      <Modal
-        modalVisible={modalVisible}
-        handleConfirmDelete={handleConfirmDelete}
-        ticketSelected={ticketSelected}
-      />
+      {
+        (acceso)?        
+        <ScreenRegister
+          datosUsuario={datosUsuario}
+        />
+        
+        :
+        <ScreenLogin
+          handlePressAcceso={handlePressAcceso}
+          handleChangeUsuario={handleChangeUsuario}
+          handleChangeClave={handleChangeClave}
+          usuarioIngreso={usuarioIngreso}
+          claveIngreso={claveIngreso}
+        />
+      }
       <StatusBar style="auto" />
     </View>
   );
@@ -101,7 +58,8 @@ export default function App() {
 
 const styles = StyleSheet.create({
   screen: {
-    padding: 30,
+    paddingTop: 50,
+    paddingHorizontal:30,
     backgroundColor: '#F0F0F0',
     flex: 1,
     borderColor: '#0A1F49',
