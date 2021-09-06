@@ -1,15 +1,34 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
+import usuarios from '../Data/Usuarios';
 import * as Font from 'expo-font'
 import { StyleSheet, Text, View,TextInput,Button } from 'react-native'
 
 const ScreenLogin = ({
-    handlePressAcceso,
-    handleChangeUsuario,
-    handleChangeClave,
-    usuarioIngreso,
-    claveIngreso,
+    navigation
 }) => {
-    
+  
+const [usuarioIngreso, setUsuarioIngreso] = useState('');
+const [claveIngreso, setClaveIngreso] = useState('');
+const [msgError,setMsgError] = useState('')
+const [datosUsuario,setDatosUsuario] = useState([])
+const handleChangeUsuario = (text) => {
+  setUsuarioIngreso(text)
+}
+const handleChangeClave = (text) => {
+  setClaveIngreso(text)
+}
+const handlePressAcceso = () => {
+  setMsgError('')
+  const usuarioSession = usuarios.filter(usuario => usuario.password ==claveIngreso && usuario.email==usuarioIngreso)
+  console.log(usuarioSession)
+  if (usuarioSession.length > 0){
+    setDatosUsuario(usuarioSession)
+    setMsgError('')
+    navigation.navigate('Register')
+  }else{
+    setMsgError('Ingrese datos válidos')
+  }
+}  
   useEffect(() => {
     loadFonts();
     })
@@ -35,6 +54,8 @@ const ScreenLogin = ({
                 onChangeText={handleChangeUsuario}
                 autoCapitalize='none'
                 value={usuarioIngreso}
+                autoCompleteType='email'
+                keyboardType='email-address'
                 />
             </View>
             <View style={styles.inputContainer}>
@@ -45,6 +66,8 @@ const ScreenLogin = ({
                 onChangeText={handleChangeClave}
                 autoCapitalize='none'
                 value={claveIngreso}
+                autoCompleteType='password'
+                secureTextEntry={true}
                 />
             </View>
             <View>

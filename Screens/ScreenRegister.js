@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native'
-import Modal from '../components/Modal';
-import Ticket from '../components/Ticket';
+import { Button, StyleSheet, Text, View } from 'react-native'
 import AddTicket from '../components/AddTicket';
+import Modal from '../components/ModalConfirmAdded';
 import Events from '../Data/Events';
 import Categories from '../Data/Categories';
 
-const ScreenRegister = ({datosUsuario}) => {
-    const [inputTextEmail, setInputTextEmail] = useState(datosUsuario[0].email);
+const ScreenRegister = ({navigation}) => {
+    const [inputTextEmail, setInputTextEmail] = useState('test@example.com');
     const [inputTextQuantity, setInputTextQuantity] = useState('0'); 
     const [eventsFiltered, setEventsFiltered] = useState(Events.filter(p => p.category == 1))
     const [selectedCategory, setSelectedCategory] = useState(1);
     const [selectedEvent, setSelectedEvent] = useState(1);
     const [inputError, setInputError] = useState('');
     const [TicketList, setTicketList] = useState([]);
-    const [ticketSelected, setTicketSelected] = useState({});
-    const [modalVisible, setModalVisible] = useState(false);
     const handleChangeEmail = (text) => {
       setInputTextEmail(text);
       setInputError('');
@@ -37,6 +34,7 @@ const ScreenRegister = ({datosUsuario}) => {
           "event": selectedEvent,
           "quantity": inputTextQuantity,
       }
+      setModalVisible(true);
       setTicketList([...TicketList,data]);
     }
     const handleChangeCategories = (value) => {
@@ -53,22 +51,24 @@ const ScreenRegister = ({datosUsuario}) => {
     const handleChangeQuantity = (value) => {
       setInputTextQuantity(value)
     }
-    const handleConfirmDelete = () => {
-      const id = ticketSelected.id;
-      setTicketList(TicketList.filter(item => item.id !== id));
+    const handlePressDetail = () => {
+      navigation.navigate('Details', {
+        TicketList: TicketList,
+      });
+    }
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleConfirm = () => {
       setModalVisible(false);
-      setTicketSelected({});
+      setInputTextQuantity('0'); 
+
     }
   
-    const handleModal = id => {
-      setTicketSelected(TicketList.find(item => item.id === id));
-      setModalVisible(true);
-    }
     return (
         <View style={styles.screen}>
           
           <View>
-                <Text style={styles.titleScreen}>Hola {datosUsuario[0].name}!!</Text>
+                <Text style={styles.titleScreen}>Hola William Lopez!!</Text>
             </View>
             <AddTicket
                 handleChangeEmail={handleChangeEmail}
@@ -84,15 +84,13 @@ const ScreenRegister = ({datosUsuario}) => {
                 Categories={Categories}
                 eventsFiltered={eventsFiltered}
             />
-            <Ticket
-                TicketList={TicketList}
-                Events={Events}
-                handleModal={handleModal}
+            <Button
+              title="Ver Detalle"
+              onPress={handlePressDetail}
             />
             <Modal
                 modalVisible={modalVisible}
-                handleConfirmDelete={handleConfirmDelete}
-                ticketSelected={ticketSelected}
+                handleConfirm={handleConfirm}
             />
         </View>
        )

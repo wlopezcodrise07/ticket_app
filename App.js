@@ -5,52 +5,13 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import ScreenRegister from './Screens/ScreenRegister';
-import ScreenLogin from './Screens/ScreenLogin';
-import usuarios from './Data/Usuarios';
+import TicketNavigator from './Navigations/TicketNavigator';
+
 export default function App() {
 
-const [usuarioIngreso, setUsuarioIngreso] = useState('');
-const [claveIngreso, setClaveIngreso] = useState('');
-const [acceso,setAcceso] = useState(false)
-const [msgError,setMsgError] = useState('')
-const [datosUsuario,setDatosUsuario] = useState([])
-console.log(acceso)
-const handleChangeUsuario = (text) => {
-  setUsuarioIngreso(text)
-}
-const handleChangeClave = (text) => {
-  setClaveIngreso(text)
-}
-const handlePressAcceso = () => {
-  setMsgError('')
-  const usuarioSession = usuarios.filter(usuario => usuario.password ==claveIngreso && usuario.email==usuarioIngreso)
-  console.log(usuarioSession)
-  if (usuarioSession.length > 0){
-    setAcceso(!acceso);
-    setDatosUsuario(usuarioSession)
-    setMsgError('')
-  }else{
-    setMsgError('Ingrese datos válidos')
-  }
-}
   return (
     <View style={styles.screen}>
-      {
-        (acceso)?        
-        <ScreenRegister
-          datosUsuario={datosUsuario}
-        />
-        
-        :
-        <ScreenLogin
-          handlePressAcceso={handlePressAcceso}
-          handleChangeUsuario={handleChangeUsuario}
-          handleChangeClave={handleChangeClave}
-          usuarioIngreso={usuarioIngreso}
-          claveIngreso={claveIngreso}
-        />
-      }
+      <TicketNavigator/>
       <StatusBar style="auto" />
     </View>
   );
