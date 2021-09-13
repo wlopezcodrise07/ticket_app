@@ -3,14 +3,20 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
+import {useSelector,useDispatch} from 'react-redux'
 import ListTicket from './TicketList';
 
-const Ticket = ({ TicketList, Events, handleModal }) => {
+const Ticket = ({   handleModal }) => {
+  const TicketsReserved = useSelector(state => state.tickets.list)
+    const renderItem = (data) => (
+    <ListTicket handleModal={handleModal}  item={data.item} />
+  );
+
   return (
     <FlatList
-      data={TicketList}
-      renderItem={(data) => <ListTicket handleModal={handleModal} Events={Events}  data={data} />}
-      keyExtractor={item => item.id}
+      data={TicketsReserved}
+      keyExtractor={(val, index) => index}
+      renderItem={renderItem}
     />
   );
 }

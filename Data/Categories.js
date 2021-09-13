@@ -1,5 +1,4 @@
-import React from 'react';
-export default [
+export const CATEGORIES = [
     {
         "id" : 1,
         "name" : "CONCIERTOS"

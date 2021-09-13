@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
@@ -7,24 +6,15 @@ import {
 } from 'react-native';
 import TicketNavigator from './Navigations/TicketNavigator';
 
+import { Provider } from 'react-redux';
+import store from './store';
+
 export default function App() {
 
   return (
-    <View style={styles.screen}>
-      <TicketNavigator/>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+        <TicketNavigator/>
+    </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    paddingTop: 50,
-    paddingHorizontal:30,
-    backgroundColor: '#F0F0F0',
-    flex: 1,
-    borderColor: '#0A1F49',
-    borderWidth: 3,
-    borderRadius: 5,
-  }
-});

@@ -5,9 +5,10 @@ import {
   Text,
   View,
 } from 'react-native';
-const ListTicket = ({ data, Events, handleModal }) => {
-  const eventSelected = Events.filter(Event => Event.id==data.item.event)
-  console.log() 
+import {useSelector} from 'react-redux'
+const ListTicket = ({ item,  handleModal }) => {
+  const Events = useSelector(state => state.events.list)
+  const eventSelected = Events.filter(x => x.id===item[0].event)
   return (
       
     <View style={[styles.item, styles.shadow]}>
@@ -16,13 +17,13 @@ const ListTicket = ({ data, Events, handleModal }) => {
         {"\n"}
         Fecha: {eventSelected[0].registered_date}
         {"\n"}
-        Cant:{data.item.quantity}
+        Cant:{item[0].quantity}
       </Text>
       
       <Button
         title="X"
         color="red"
-        onPress={() => handleModal(data.item.id)}
+        onPress={() => handleModal(item[0].id)}
       />
     </View>
   );

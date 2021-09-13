@@ -1,16 +1,16 @@
 import React,{useEffect,useState} from 'react'
-import usuarios from '../Data/Usuarios';
 import * as Font from 'expo-font'
 import { StyleSheet, Text, View,TextInput,Button } from 'react-native'
+import {useSelector,useDispatch,connect} from 'react-redux'
+import { loginUser } from '../store/actions/user.action'
+const ScreenLogin = ({navigation}) => {
+  const dispatch = useDispatch()
 
-const ScreenLogin = ({
-    navigation
-}) => {
+  const Users = useSelector(state => state.users.list)
   
 const [usuarioIngreso, setUsuarioIngreso] = useState('');
 const [claveIngreso, setClaveIngreso] = useState('');
 const [msgError,setMsgError] = useState('')
-const [datosUsuario,setDatosUsuario] = useState([])
 const handleChangeUsuario = (text) => {
   setUsuarioIngreso(text)
 }
@@ -19,30 +19,23 @@ const handleChangeClave = (text) => {
 }
 const handlePressAcceso = () => {
   setMsgError('')
-  const usuarioSession = usuarios.filter(usuario => usuario.password ==claveIngreso && usuario.email==usuarioIngreso)
-  console.log(usuarioSession)
+  const usuarioSession = Users.filter(usuario => usuario.password ==claveIngreso && usuario.email==usuarioIngreso)
   if (usuarioSession.length > 0){
-    setDatosUsuario(usuarioSession)
+    dispatch(loginUser(usuarioSession))
     setMsgError('')
     navigation.navigate('Register')
   }else{
     setMsgError('Ingrese datos válidos')
   }
 }  
-  useEffect(() => {
-    loadFonts();
-    })
 
-    const loadFonts = async () => {
-    await Font.loadAsync({
-    'roboto-light':require('../assets/roboto/Roboto-Light.ttf')
-    })
-    }
+
+
 
     return (
     <React.Fragment>
 
-        <View>
+        <View style={styles.screen}>
             <View>
                 <Text style={styles.titleScreen}>Login</Text>
             </View>
@@ -105,7 +98,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color : '#0A1F49',
-    fontFamily:'roboto-light'
   },
   titleScreen: {
     fontSize: 40,
@@ -113,6 +105,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color : '#0A1F49',
     paddingVertical:50,
-    fontFamily:'roboto-light'
+  },
+  screen: {
+    paddingTop: 50,
+    paddingHorizontal:30,
+    backgroundColor: '#F0F0F0',
+    flex: 1,
+    borderColor: '#0A1F49',
+    borderWidth: 3,
+    borderRadius: 5,
   }
 })

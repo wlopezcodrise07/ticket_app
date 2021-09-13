@@ -11,9 +11,9 @@ const  ItemPicker =({data,selectedValue,ValueChange}) => {
             onValueChange={(itemValue, itemIndex) => ValueChange(itemValue)}
         >
             {data?.map((x) => (
-            <Picker.Item label={x.name} value={x.id} />
+            <Picker.Item  key={x.id} label={x.name} value={x.id} /> 
             ))}
-        </Picker>
+        </Picker> 
         </View>
     )
 }

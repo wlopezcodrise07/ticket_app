@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import {useSelector,useDispatch,connect} from 'react-redux'
 import ItemPicker from '../Items/ItemPicker';
 const AddTicket = ({
   handleChangeEmail,

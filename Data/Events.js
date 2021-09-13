@@ -1,5 +1,4 @@
-import React from 'react';
-export default [
+export const EVENTS = [
     {
         "id" : 1,
         "name" : "MUSE EN VIVO",

@@ -2,17 +2,22 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native'
 import AddTicket from '../components/AddTicket';
 import Modal from '../components/ModalConfirmAdded';
-import Events from '../Data/Events';
-import Categories from '../Data/Categories';
+import {useSelector,useDispatch} from 'react-redux'
+import { selectedCategory } from '../store/actions/category.actions';
+import { filterEvents, selectEvent } from '../store/actions/event.action';
+import { addTicket } from '../store/actions/reserved.action';
 
 const ScreenRegister = ({navigation}) => {
-    const [inputTextEmail, setInputTextEmail] = useState('test@example.com');
+     const dispatch = useDispatch()
+    const Categories = useSelector(state => state.categories.list)
+    const selectedCategoryf = useSelector(state => state.categories.selectedCategory)
+    const eventsFiltered = useSelector(state => state.events.filteredEvents)
+    const selectedEvent = useSelector(state => state.events.selectedEvent)
+    const userSession = useSelector(state => state.users.userSession)
+    const TicketsReserved = useSelector(state => state.tickets.list)
+    const [inputTextEmail, setInputTextEmail] = useState(userSession[0].email);
     const [inputTextQuantity, setInputTextQuantity] = useState('0'); 
-    const [eventsFiltered, setEventsFiltered] = useState(Events.filter(p => p.category == 1))
-    const [selectedCategory, setSelectedCategory] = useState(1);
-    const [selectedEvent, setSelectedEvent] = useState(1);
     const [inputError, setInputError] = useState('');
-    const [TicketList, setTicketList] = useState([]);
     const handleChangeEmail = (text) => {
       setInputTextEmail(text);
       setInputError('');
@@ -28,33 +33,28 @@ const ScreenRegister = ({navigation}) => {
       setInputError('Ingrese una cantidad mayor a 0');
       return
       }
-      const data = {
+      const data = [{
           "id": Math.random().toString(),
           "email": inputTextEmail,
           "event": selectedEvent,
           "quantity": inputTextQuantity,
-      }
-      setModalVisible(true);
-      setTicketList([...TicketList,data]);
+      }]
+      setModalVisible(true);      
+      dispatch(addTicket(data))
+
     }
     const handleChangeCategories = (value) => {
-      setSelectedCategory(value)
-      const arrayEvent = Events.filter(p => p.category == value)
-      setEventsFiltered(arrayEvent)
-      const arrayEventid = arrayEvent.find(element=>element.id>0)
-      setSelectedEvent(arrayEventid.id)
-  
+      dispatch(selectedCategory(value))
+      dispatch(filterEvents(value))
     }
     const handleChangeEvent = (value) => {
-      setSelectedEvent(value)
+      dispatch(selectEvent(value))
     }
     const handleChangeQuantity = (value) => {
       setInputTextQuantity(value)
     }
     const handlePressDetail = () => {
-      navigation.navigate('Details', {
-        TicketList: TicketList,
-      });
+      navigation.navigate('Details');
     }
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -68,7 +68,7 @@ const ScreenRegister = ({navigation}) => {
         <View style={styles.screen}>
           
           <View>
-                <Text style={styles.titleScreen}>Hola William Lopez!!</Text>
+                <Text style={styles.titleScreen}>Hola {userSession[0].name}!!</Text>
             </View>
             <AddTicket
                 handleChangeEmail={handleChangeEmail}
@@ -76,7 +76,7 @@ const ScreenRegister = ({navigation}) => {
                 handleChangeCategories={handleChangeCategories}
                 handleChangeEvent={handleChangeEvent}
                 handleChangeQuantity={handleChangeQuantity}
-                selectedCategory={selectedCategory}
+                selectedCategory={selectedCategoryf}
                 selectedEvent={selectedEvent}
                 inputError={inputError}
                 inputTextEmail={inputTextEmail}
@@ -113,6 +113,5 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       color : '#0A1F49',
       paddingVertical:20,
-      fontFamily:'roboto-light'
     }
   });
