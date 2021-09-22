@@ -15,7 +15,7 @@ const Ticket = ({   handleModal }) => {
   return (
     <FlatList
       data={TicketsReserved}
-      keyExtractor={(val, index) => index}
+      keyExtractor={(val, index) => val.id.toString()}
       renderItem={renderItem}
     />
   );

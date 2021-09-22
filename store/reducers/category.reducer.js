@@ -1,5 +1,5 @@
 import { CATEGORIES } from '../../Data/Categories'
-import { SELECT_CATEGORY } from '../actions/category.actions'
+import { SELECT_CATEGORY,ADD_CATEGORY,UPDATE_CATEGORY,REMOVE_CATEGORY } from '../actions/category.actions'
 
 const initialState = {
     list: CATEGORIES,

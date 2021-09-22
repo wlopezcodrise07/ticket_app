@@ -26,15 +26,7 @@ const AddTicket = ({
 
 }) => {
 
-  useEffect(() => {
-    loadFonts();
-})
 
-const loadFonts = async () => {
- await Font.loadAsync({
-  'roboto-light':require('../assets/roboto/Roboto-BoldCondensed.ttf')
-})
-}
 
   return (
     <React.Fragment>
@@ -143,7 +135,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color : '#0A1F49',
-    fontFamily:'roboto-light'
   }
 });
 

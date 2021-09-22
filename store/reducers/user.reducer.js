@@ -4,6 +4,7 @@ import { LOGIN_USER } from '../actions/user.action'
 const initialState = {
     list: USERS,
     userSession: [],
+    isLoggedIn: false,
 }
 
 const UserReducer = (state = initialState,action) => {
@@ -11,7 +12,8 @@ const UserReducer = (state = initialState,action) => {
         case LOGIN_USER:
             return {
                 ...state,
-                userSession: action.user
+                userSession: action.user,
+                isLoggedIn: true,
             }
         default:
             return state

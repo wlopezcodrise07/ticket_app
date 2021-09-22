@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native'
-import AddTicket from '../components/AddTicket';
-import Modal from '../components/ModalConfirmAdded';
+import AddTicket from '../../components/AddTicket';
+import Modal from '../../components/ModalConfirmAdded';
 import {useSelector,useDispatch} from 'react-redux'
-import { selectedCategory } from '../store/actions/category.actions';
-import { filterEvents, selectEvent } from '../store/actions/event.action';
-import { addTicket } from '../store/actions/reserved.action';
+import { selectedCategory } from '../../store/actions/category.actions';
+import { filterEvents, selectEvent } from '../../store/actions/event.action';
+import { addTicket } from '../../store/actions/reserved.action';
 
 const ScreenRegister = ({navigation}) => {
      const dispatch = useDispatch()
@@ -53,9 +53,6 @@ const ScreenRegister = ({navigation}) => {
     const handleChangeQuantity = (value) => {
       setInputTextQuantity(value)
     }
-    const handlePressDetail = () => {
-      navigation.navigate('Details');
-    }
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleConfirm = () => {
@@ -83,10 +80,6 @@ const ScreenRegister = ({navigation}) => {
                 inputTextQuantity={inputTextQuantity}
                 Categories={Categories}
                 eventsFiltered={eventsFiltered}
-            />
-            <Button
-              title="Ver Detalle"
-              onPress={handlePressDetail}
             />
             <Modal
                 modalVisible={modalVisible}

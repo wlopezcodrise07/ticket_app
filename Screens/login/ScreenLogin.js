@@ -2,7 +2,8 @@ import React,{useEffect,useState} from 'react'
 import * as Font from 'expo-font'
 import { StyleSheet, Text, View,TextInput,Button } from 'react-native'
 import {useSelector,useDispatch,connect} from 'react-redux'
-import { loginUser } from '../store/actions/user.action'
+import { loginUser } from '../../store/actions/user.action'
+import { insertCategory, removeCategory, updateCategory } from '../../store/actions/category.actions'
 const ScreenLogin = ({navigation}) => {
   const dispatch = useDispatch()
 
@@ -23,7 +24,6 @@ const handlePressAcceso = () => {
   if (usuarioSession.length > 0){
     dispatch(loginUser(usuarioSession))
     setMsgError('')
-    navigation.navigate('Register')
   }else{
     setMsgError('Ingrese datos válidos')
   }
