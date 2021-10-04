@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {
   StyleSheet,
   FlatList,
@@ -6,12 +6,15 @@ import {
 import {useSelector,useDispatch} from 'react-redux'
 import ListTicket from './TicketList';
 
-const Ticket = ({   handleModal }) => {
-  const TicketsReserved = useSelector(state => state.tickets.list)
+const Ticket = ({   handleModal,TicketsReserved }) => {
+     const dispatch = useDispatch()
+
+  const userSession = useSelector(state => state.users.userSession)
     const renderItem = (data) => (
     <ListTicket handleModal={handleModal}  item={data.item} />
   );
 
+  console.log(TicketsReserved)
   return (
     <FlatList
       data={TicketsReserved}

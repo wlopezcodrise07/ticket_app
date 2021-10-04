@@ -8,7 +8,7 @@ import {
 import {useSelector} from 'react-redux'
 const ListTicket = ({ item,  handleModal }) => {
   const Events = useSelector(state => state.events.list)
-  const eventSelected = Events.filter(x => x.id===item[0].event)
+  const eventSelected = Events.filter(x => x.id===item.event)
   return (
       
     <View style={[styles.item, styles.shadow]}>
@@ -17,13 +17,13 @@ const ListTicket = ({ item,  handleModal }) => {
         {"\n"}
         Fecha: {eventSelected[0].registered_date}
         {"\n"}
-        Cant:{item[0].quantity}
+        Cant:{item.quantity}
       </Text>
       
       <Button
         title="X"
         color="red"
-        onPress={() => handleModal(item[0].id)}
+        onPress={() => handleModal(item.id)}
       />
     </View>
   );

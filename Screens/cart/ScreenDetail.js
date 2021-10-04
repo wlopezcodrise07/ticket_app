@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Modal from '../../components/ModalDelete';
 import ModalOrder from '../../components/ModalConfirmOrder';
 import Ticket from '../../components/Ticket';
@@ -6,6 +6,8 @@ import { Button, StyleSheet, Text, View } from 'react-native'
 import {useSelector,useDispatch} from 'react-redux'
 import { removeTicket, saveOrder } from '../../store/actions/reserved.action';
 import { bounce } from 'react-native/Libraries/Animated/src/Easing';
+
+import { getTicketsReserved } from '../../store/actions/reserved.action';
 export default function ScreenDetail({navigation}) {
 
     const dispatch = useDispatch()
@@ -14,9 +16,12 @@ export default function ScreenDetail({navigation}) {
     const [modalVisibleOrder, setModalVisibleOrder] = useState(false);
     const TicketsReserved = useSelector(state => state.tickets.list)
     const usuarioSession = useSelector(state => state.users.userSession)
+    useEffect(() => {
+      dispatch(getTicketsReserved(usuarioSession[0].email));
+  }, []);
     const handleConfirmDelete = () => {
       const id = ticketSelected;
-      dispatch(removeTicket(id))
+      dispatch(removeTicket(id,usuarioSession[0].email))
       setModalVisible(false);
       setTicketSelected({});
     }
@@ -29,6 +34,7 @@ export default function ScreenDetail({navigation}) {
       setModalVisibleOrder(true);
     }
     const handleConfirmOrder = () =>{
+      console.log(TicketsReserved)
       dispatch(saveOrder(usuarioSession[0].email,TicketsReserved))
       setModalVisibleOrder(false);
     }
@@ -40,6 +46,7 @@ export default function ScreenDetail({navigation}) {
           <View>   
            <Ticket
                handleModal={handleModal}
+               TicketsReserved={TicketsReserved}
            />
            <Button
              onPress={handleModalOrder}

@@ -1,4 +1,4 @@
-import { ADD_TICKET, REMOVE_TICKET } from "../actions/reserved.action";
+import { ADD_TICKET, REMOVE_TICKET,LOAD_TICKET,SAVE_ORDER } from "../actions/reserved.action";
 
 const initialState = {
     list : []
@@ -7,17 +7,26 @@ const initialState = {
 const ReservedReducer = (state = initialState,action) => {
     switch (action.type) {
         case ADD_TICKET:
-            const updateReserve = [...state.list, action.ticket];
             return {
                 ...state,
-                list: updateReserve
+                list: action.list
             }    
         case REMOVE_TICKET:
-            const deleteReserve = state.list.filter(x => x[0].id!=action.id)
             return {
                 ...state,
-                list: deleteReserve
-            }   
+                list: action.list
+            }
+            
+        case LOAD_TICKET:
+            return {
+                ...state,
+                list: action.list
+            } 
+        case SAVE_ORDER:
+            return {
+                ...state,
+                list: action.list
+            }      
         default:
             return state
     }
