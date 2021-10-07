@@ -6,6 +6,7 @@ import { Entypo } from '@expo/vector-icons';
 import TicketNavigator from '../shop/TicketNavigator';
 import OrderNavigator from '../shop/OrderNavigator';
 import CartNavigator from '../cart/CartNavigator';
+import MapNavigator from '../map/MapNavigator';
 
 const BottomTabs= createBottomTabNavigator();
 
@@ -48,6 +49,16 @@ const TabNavigator = () => {
                     )
                     }}  
                 name="Order" component={OrderNavigator} />
+            <BottomTabs.Screen
+                options={{
+                    tabBarIcon: () => (
+                        <View style={styles.item}>
+                        <Entypo name="location" size={24} color="black" />
+                        <Text>Ubicacion</Text>
+                        </View>
+                    )
+                    }}  
+                name="Map" component={MapNavigator} />
         </BottomTabs.Navigator>
     )
 }

@@ -8,6 +8,7 @@ export const EVENTS = [
         "tickets_sold" : 0,
         "registered_date" : '2021-08-18',
         "event_date" : '2021-09-18',
+        "country" : 'PE'
     },
     {
         "id" : 2,
@@ -17,7 +18,8 @@ export const EVENTS = [
         "capacity": 20000,
         "tickets_sold" : 0,
         "registered_date" : '2021-08-18',
-        "event_date" : '2021-08-30'
+        "event_date" : '2021-08-30',
+        "country" : 'PE'
     },
     {
         "id" : 3,
@@ -27,7 +29,8 @@ export const EVENTS = [
         "capacity": 5000,
         "tickets_sold" : 0,
         "registered_date" : '2021-08-19',
-        "event_date" : '2021-12-09'
+        "event_date" : '2021-12-09',
+        "country" : 'PE'
     },
     {
         "id" : 4,
@@ -37,6 +40,7 @@ export const EVENTS = [
         "capacity": 4000,
         "tickets_sold" : 0,
         "registered_date" : '2021-08-19',
-        "event_date" : '2021-09-10'
+        "event_date" : '2021-09-10',
+        "country" : 'AR'
     }
 ]

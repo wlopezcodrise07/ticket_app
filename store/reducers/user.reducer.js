@@ -1,9 +1,10 @@
 import { USERS } from '../../Data/Usuarios'
-import { LOGIN_USER } from '../actions/user.action'
+import { LOGIN_USER,UBICAR } from '../actions/user.action'
 
 const initialState = {
     list: USERS,
     userSession: [],
+    userCountry: 'PE',
     isLoggedIn: false,
 }
 
@@ -14,6 +15,11 @@ const UserReducer = (state = initialState,action) => {
                 ...state,
                 userSession: action.user,
                 isLoggedIn: true,
+            }
+        case UBICAR:
+            return{
+                ...state,
+                userCountry: action.country,
             }
         default:
             return state
